@@ -105,56 +105,63 @@ def insert_sample_data():
     with app.app_context():
         cur = mysql.connection.cursor()
 
-        # Insert sample courses
-        cur.execute("INSERT INTO courses (name, start_date, end_date) VALUES ('Python Course', '2023-01-01', '2023-03-01')")
-                    
-        cur.execute("INSERT INTO courses (name, start_date, end_date) VALUES ('Web Development Course', '2023-02-01', '2023-04-01')")
+        try:
+            # Insert sample courses
+            cur.execute("INSERT INTO courses (name, start_date, end_date) VALUES ('Python Course', '2023-01-01', '2023-03-01')")
+                        
+            cur.execute("INSERT INTO courses (name, start_date, end_date) VALUES ('Web Development Course', '2023-02-01', '2023-04-01')")
 
-        # Insert sample subsections
-        cur.execute("INSERT INTO subsections (course_id, name) VALUES (1, 'Python Basics')")
+            # Insert sample subsections
+            cur.execute("INSERT INTO subsections (course_id, name) VALUES (1, 'Python Basics')")
 
-        cur.execute("INSERT INTO subsections (course_id, name) VALUES (1, 'Advanced Python')")
-        
-        cur.execute("INSERT INTO subsections (course_id, name) VALUES (1, 'Database')")
-        
-        cur.execute("INSERT INTO subsections (course_id, name) VALUES (2, 'HTML/CSS')")
-        
-        cur.execute("INSERT INTO subsections (course_id, name) VALUES (2, 'JavaScript')")
+            cur.execute("INSERT INTO subsections (course_id, name) VALUES (1, 'Advanced Python')")
+            
+            cur.execute("INSERT INTO subsections (course_id, name) VALUES (1, 'Database')")
+            
+            cur.execute("INSERT INTO subsections (course_id, name) VALUES (2, 'HTML/CSS')")
+            
+            cur.execute("INSERT INTO subsections (course_id, name) VALUES (2, 'JavaScript')")
 
-        # Insert sample exams
-        cur.execute("INSERT INTO exams (subsection_id, name) VALUES (1, 'Conditions')")
+            # Insert sample exams
+            cur.execute("INSERT INTO exams (subsection_id, name) VALUES (1, 'Conditions')")
 
-        cur.execute("INSERT INTO exams (subsection_id, name) VALUES (1, 'Loops')")
+            cur.execute("INSERT INTO exams (subsection_id, name) VALUES (1, 'Loops')")
 
-        cur.execute("INSERT INTO exams (subsection_id, name) VALUES (2, 'Python Decorators')")
+            cur.execute("INSERT INTO exams (subsection_id, name) VALUES (2, 'Python Decorators')")
 
-        cur.execute("INSERT INTO exams (subsection_id, name) VALUES (4, 'HTML Basics')")
+            cur.execute("INSERT INTO exams (subsection_id, name) VALUES (4, 'HTML Basics')")
 
-        cur.execute("INSERT INTO exams (subsection_id, name) VALUES (5, 'JavaScript Functions')")
+            cur.execute("INSERT INTO exams (subsection_id, name) VALUES (5, 'JavaScript Functions')")
 
-        # Insert sample students
-        cur.execute("INSERT INTO students (first_name, last_name, age, username, password) VALUES ('Aria', 'Yaghoubi', 21, 'aria_ygh', '123')")
+            # Insert sample students
+            cur.execute("INSERT INTO students (first_name, last_name, age, username, password) VALUES ('Aria', 'Yaghoubi', 21, 'aria', '123')")
 
-        cur.execute("INSERT INTO students (first_name, last_name, age, username, password) VALUES ('Pejman', 'Javid', 22, 'pejman_j', '456')")
+            cur.execute("INSERT INTO students (first_name, last_name, age, username, password) VALUES ('Pejman', 'Javid', 22, 'pejman', '456')")
 
-        # Insert sample student_courses
-        cur.execute("INSERT INTO students_courses (student_id, course_id) VALUES (1, 1)")
+            # Insert sample student_courses
+            cur.execute("INSERT INTO students_courses (student_id, course_id) VALUES (1, 1)")
 
-        cur.execute("INSERT INTO students_courses (student_id, course_id) VALUES (1, 2)")
+            cur.execute("INSERT INTO students_courses (student_id, course_id) VALUES (1, 2)")
 
-        cur.execute("INSERT INTO students_courses (student_id, course_id) VALUES (2, 1)")
+            cur.execute("INSERT INTO students_courses (student_id, course_id) VALUES (2, 1)")
 
-        # Insert sample grades
-        cur.execute("INSERT INTO grades (student_id, exam_id, grade) VALUES (1, 1, 90)")
+            # Insert sample grades
+            cur.execute("INSERT INTO grades (student_id, exam_id, grade) VALUES (1, 1, 90)")
 
-        cur.execute("INSERT INTO grades (student_id, exam_id, grade) VALUES (1, 2, 85)")
+            cur.execute("INSERT INTO grades (student_id, exam_id, grade) VALUES (1, 2, 85)")
 
-        cur.execute("INSERT INTO grades (student_id, exam_id, grade) VALUES (2, 1, 92)")
+            cur.execute("INSERT INTO grades (student_id, exam_id, grade) VALUES (2, 1, 92)")
 
-        cur.execute("INSERT INTO grades (student_id, exam_id, grade) VALUES (2, 3, 88)")
+            cur.execute("INSERT INTO grades (student_id, exam_id, grade) VALUES (2, 3, 88)")
 
-        mysql.connection.commit()
-        cur.close()
+            mysql.connection.commit()
+        except Exception as e:
+            # Log the error or print it for debugging purposes
+            print(f"Error inserting data: {e}")
+            # Optionally, you can rollback the transaction to avoid partially inserting data
+            mysql.connection.rollback()
+        finally:
+            cur.close()       
 
 # Run the function to insert sample data
 insert_sample_data()
